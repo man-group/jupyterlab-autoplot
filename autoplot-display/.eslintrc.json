@@ -1,0 +1,21 @@
+{
+	"extends": [
+		"plugin:@typescript-eslint/recommended",
+		"plugin:@typescript-eslint/recommended-requiring-type-checking",
+		"prettier"
+	],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"project": ["./tsconfig.json"],
+		"sourceType": "module"
+	},
+	"plugins": ["@typescript-eslint", "prettier"],
+	"rules": {
+		"prettier/prettier": ["warn"],
+		"@typescript-eslint/ban-ts-comment": "off",
+		"@typescript-eslint/no-unused-vars": ["warn", { "args": "none" }],
+		"@typescript-eslint/explicit-member-accessibility": "warn",
+		"@typescript-eslint/no-non-null-assertion": "off",
+		"@typescript-eslint/no-namespace": "off"
+	}	
+}

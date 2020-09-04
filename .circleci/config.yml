@@ -1,0 +1,178 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@0.3.2
+  node: circleci/node@4.0.0
+
+# define the workspace directory so we can persist data between jobs
+references:
+  workspace_root: &workspace_root
+    /tmp/workspace
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
+
+
+jobs:
+  test-and-build-mpld3-plugins:
+    executor: node/default
+    steps:
+      # checkout code
+      - checkout
+      - *attach_workspace
+      # load dependency cache
+      - restore_cache:
+          name: Restore npm cache
+          key: mpld3-node-modules-{{ .Branch }}
+      # install node modules
+      - run:
+          name: Install node modules
+          command: |
+            cd mpld3-plugins
+            npm install
+      # save dependency cache
+      - save_cache:
+          name: Save npm cache
+          key: mpld3-node-modules-{{ .Branch }}-{{ epoch }}
+          paths:
+            - ./mpld3-plugins/node_modules
+      # run static analysis
+      - run:
+          name: Run eslint
+          command: |
+            cd mpld3-plugins
+            npm run lint
+      # build and run tests
+      - run:
+          name: Build ts and run jest
+          command: |
+            cd mpld3-plugins
+            npm run build-test
+            npm run test
+      # build and save bundles to workspace
+      - run:
+          name: Build and copy to ipython-extension
+          command: |
+            cd mpld3-plugins
+            npm run build
+            mkdir -p /tmp/workspace/js
+            mv bundles/*.js /tmp/workspace/js/
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - js
+
+  test-and-build-ipython-ext:
+    executor: python/default
+    steps:
+      # checkout code
+      - checkout
+      - *attach_workspace
+      # load dependency cache
+      - restore_cache:
+          name: Restore pip cache
+          key: requirements-{{ .Branch }}
+      # create environment and install dependencies
+      - run:
+          name: Create and activate virtualenv
+          command: |
+            virtualenv ci
+            . ci/bin/activate
+            pip install ipython ipywidgets numpy pandas matplotlib mpld3
+            pip install black==19.3b0 mypy pytest mock
+      # save dependency cache
+      - save_cache:
+          name: Save pip cache
+          key: requirements-{{ .Branch }}-{{ epoch }}
+          paths:
+            - ./ci
+      # run static analysis
+      - run:
+          name: Run black
+          command: |
+            . ci/bin/activate
+            black --check ipython-extension
+      # run type checking
+      - run:
+          name: Run mypy
+          command: |
+            . ci/bin/activate
+            mypy --ignore-missing-imports ipython-extension
+      # restore bundles from workspace
+      - run:
+          name: Info
+          command: |
+            cd ipython-extension/autoplot/plugins
+            mkdir bundles
+            mv /tmp/workspace/js/* bundles
+      # run unit tests
+      - run:
+          name: Run pytest
+          command: |
+            . ci/bin/activate
+            mkdir test-results
+            pytest ipython-extension --junitxml=/tmp/pytest-results/junit.xml
+      # store test results
+      - store_test_results:
+          path: /tmp/pytest-results
+      # build egg on master
+      - run:
+          name: Build eggs
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              set -e
+              . ci/bin/activate
+              cd ipython-extension
+              python setup.py bdist_egg
+              python setup.py sdist
+              cp -r ./dist /tmp/dist
+            fi
+      # store artifacts
+      - store_artifacts:
+          path: /tmp/pytest-results
+      - store_artifacts:
+          path: /tmp/dist
+  
+  test-and-build-lab-ext:
+    executor: node/default
+    steps:
+      # checkout code
+      - checkout
+      - *attach_workspace
+      # load dependency cache
+      - restore_cache:
+          name: Restore npm cache
+          key: lab-node-modules-{{ .Branch }}
+      # install node modules
+      - run:
+          name: Install node modules
+          command: |
+            cd autoplot-display
+            npm install
+      # save dependency cache
+      - save_cache:
+          name: Save npm cache
+          key: lab-node-modules-{{ .Branch }}-{{ epoch }}
+          paths:
+            - ./autoplot-display/node_modules
+      # run static analysis
+      - run:
+          name: Run eslint
+          command: |
+            cd autoplot-display
+            npm run lint
+      # build and run tests
+      - run:
+          name: Build ts
+          command: |
+            cd autoplot-display
+            npm run build
+
+workflows:
+  main:
+    jobs:
+      - test-and-build-mpld3-plugins
+      - test-and-build-ipython-ext:
+          requires:
+            - test-and-build-mpld3-plugins
+      - test-and-build-lab-ext

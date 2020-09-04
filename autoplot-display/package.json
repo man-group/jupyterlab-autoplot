@@ -1,0 +1,49 @@
+{
+	"name": "autoplot-display",
+	"version": "0.1.0",
+	"description": "The JupyterLab component for the Autoplot JupyterLab extension.",
+	"license": "BSD-3-Clause",
+	"keywords": [
+		"jupyter",
+		"jupyterlab",
+		"jupyterlab-extension"
+	],
+	"files": [
+		"lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
+		"style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}"
+	],
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
+	"style": "style/index.css",
+	"scripts": {
+		"build": "tsc",
+		"clean": "rimraf lib tsconfig.tsbuildinfo",
+		"lint": "eslint . --ext .ts",
+		"lint-fix": "eslint . --ext .ts --fix",
+		"prepare": "yarn run clean && yarn run build",
+		"watch": "tsc -w"
+	},
+	"dependencies": {
+		"@jupyter-widgets/jupyterlab-manager": "^1.1.0",
+		"@jupyterlab/application": "^1.0.0",
+		"@jupyterlab/mainmenu": "^1.2.8",
+		"@jupyterlab/notebook": "^1.2.9",
+		"jupyterlab_toastify": "^4.0.0"
+	},
+	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "3.4.0",
+		"@typescript-eslint/parser": "3.4.0",
+		"eslint": "7.3.1",
+		"eslint-config-prettier": "6.11.0",
+		"eslint-plugin-prettier": "3.1.4",
+		"prettier": "2.0.5",
+		"rimraf": "^2.6.1",
+		"typescript": "^3.7.0"
+	},
+	"sideEffects": [
+		"style/*.css"
+	],
+	"jupyterlab": {
+		"extension": true
+	}
+}

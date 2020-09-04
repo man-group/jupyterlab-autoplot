@@ -1,0 +1,15 @@
+:root {
+	--jp-icon-autoplot: url('icons/autoplot-icon.svg');
+}
+
+.jp-AutoplotIcon {
+	background-image: var(--jp-icon-autoplot);
+}
+
+/* shrink the whitespace to the right of the plot */
+.autoplot-panel .jp-OutputArea-prompt {
+	width: 3px;
+	flex: 0;
+	padding-left: 0;
+	padding-right: 0;
+}

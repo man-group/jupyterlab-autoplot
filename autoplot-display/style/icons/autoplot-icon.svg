@@ -1,0 +1,9 @@
+<svg id="autoplot-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+	 viewBox="0 0 500 500">
+	<polyline points="53,100 105,150 160,170 215,90 270,130 325,200 380,170 435,260 480,240" fill="none" stroke="#1f77b4" stroke-width="30px" stroke-linecap="round" stroke-linejoin="round" />
+	<polyline points="53,400 105,370 160,410 215,310 270,320 325,200 380,280 435,170 480,160" fill="none" stroke="#ff7f0e" stroke-width="30px" stroke-linecap="round" stroke-linejoin="round" />
+	<line x1="20" y1="450" x2="480" y2="450" stroke="black" stroke-width="25px" stroke-linecap="round" />
+	<line x1="50" y1="20" x2="50" y2="480" stroke="black" stroke-width="25px" stroke-linecap="round" />
+	<polyline points="445,480 480,450 445,420" fill="none" stroke="black" stroke-width="25px" stroke-linecap="round" stroke-linejoin="round" />
+	<polyline points="20,55 50,20 80,55" fill="none" stroke="black" stroke-width="25px" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
