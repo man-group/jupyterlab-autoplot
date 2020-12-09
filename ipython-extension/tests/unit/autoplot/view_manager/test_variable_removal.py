@@ -6,6 +6,7 @@ variable is deleted. In general, we expect the variable to be deleted from the
 """
 
 import pytest
+from ipywidgets import Output
 
 from tests.unit.autoplot.mocks import COL, COL_ALT, DF, DF_COL, DF_COL_ALT, MockSuccessfulExecution, VAR
 
@@ -13,9 +14,7 @@ from tests.unit.autoplot.mocks import COL, COL_ALT, DF, DF_COL, DF_COL_ALT, Mock
 def test_deleted_series_removed_and_hidden(initialised_mocks, num_series):
     shell, plotter, handler = initialised_mocks({VAR: num_series})
 
-    # remove the series and rerun
-    shell.user_ns.pop(VAR)
-    handler.post_run_cell(MockSuccessfulExecution())
+    handler.update_variables({})
 
     # test expected updates performed
     with pytest.raises(KeyError):
@@ -29,8 +28,7 @@ def test_deleted_dataframe_removed_and_hidden(initialised_mocks, num_dataframe):
     shell, plotter, handler = initialised_mocks({DF: num_dataframe})
 
     # remove the dataframe and rerun
-    shell.user_ns.pop(DF)
-    handler.post_run_cell(MockSuccessfulExecution())
+    handler.update_variables({})
 
     # test expected updates performed
     with pytest.raises(KeyError):
@@ -49,7 +47,7 @@ def test_deleted_column_removed_and_hidden(initialised_mocks, num_dataframe, num
 
     # remove the column and rerun
     df.drop(columns=[COL], inplace=True)
-    handler.post_run_cell(MockSuccessfulExecution())
+    handler.update_variables({DF: df})
 
     # test expected updates performed
     assert handler[DF] == {DF_COL_ALT}, "Column removed from dataframe"

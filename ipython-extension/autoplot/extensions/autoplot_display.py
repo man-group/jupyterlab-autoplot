@@ -39,3 +39,4 @@ class AutoplotDisplay(Output):
     # custom attributes
     title = Unicode(EXTENSION_TITLE).tag(sync=True)
     uuid = Unicode(uuid.uuid4().hex).tag(sync=True)
+    data_id = Unicode("").tag(sync=True)

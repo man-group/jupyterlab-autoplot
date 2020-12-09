@@ -15,8 +15,8 @@ def test_rename_valid_names(initial, final, full_autoplot_magic):
     magic.autoplot(f"--rename '{initial}' '{final}'")
 
     # test label set to correct value
-    assert magic.plotter[initial].get_label() == final
-    assert magic.plotter._changed
+    assert magic.view_manager.active_view._plotter[initial].get_label() == final
+    assert magic.view_manager.active_view._plotter._changed
 
 
 def test_rename_dataframe(full_autoplot_magic):
@@ -27,8 +27,8 @@ def test_rename_dataframe(full_autoplot_magic):
     magic.autoplot(f"--rename {initial} {final}")
 
     # test label set to correct value
-    assert magic.plotter[DF_COL].get_label() == DF_COL.replace(initial, final)
-    assert magic.plotter[DF_COL_ALT].get_label() == DF_COL_ALT.replace(initial, final)
+    assert magic.view_manager.active_view._plotter[DF_COL].get_label() == DF_COL.replace(initial, final)
+    assert magic.view_manager.active_view._plotter[DF_COL_ALT].get_label() == DF_COL_ALT.replace(initial, final)
 
 
 @pytest.mark.parametrize("initial", ["undef", "", COL])
@@ -38,5 +38,5 @@ def test_rename_undefined_variable(mock_toast, initial, full_autoplot_magic):
     magic.autoplot(f"--rename '{initial}' new")
 
     # test plotter not changed and toast show
-    assert not magic.plotter._changed
+    assert not magic.view_manager.active_view._plotter._changed
     toast.unrecognised_variable.assert_called_once_with(initial)
