@@ -13,3 +13,20 @@
 	padding-left: 0;
 	padding-right: 0;
 }
+
+/* Maximize the dtale table */
+.autoplot-panel div {
+	overflow: hidden;
+	height: 100%;
+	padding-right: 0;
+}
+.autoplot-panel iframe {
+	height: 100%;
+}
+.autoplot-panel .jp-RenderedImage {
+    text-align: center;
+    background-color: #e6e6e6;
+}
+.autoplot-panel .jp-RenderedImage > img {
+    max-height: 100%;
+}

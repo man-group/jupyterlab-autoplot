@@ -23,6 +23,7 @@ export class AutoplotDisplayModel extends OutputModel {
 			_view_module: AutoplotDisplayModel.view_module,
 			_view_module_version: AutoplotDisplayModel.view_module_version,
 			title: VERSION.title,
+			data_id: '',
 		};
 	}
 

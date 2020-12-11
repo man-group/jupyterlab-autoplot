@@ -23,14 +23,56 @@ const extension: JupyterFrontEndPlugin<void> = {
 		const widgetsByNotebook: WidgetsByNotebook = {};
 		const widgetManager = new WidgetManager(tracker, widgetsByNotebook);
 
+		// fix issue where the dtale iframe would prevent panel resizing.
+		window.addEventListener(
+			'mousedown',
+			(evt) => {
+				if (['p-SplitPanel-handle', 'p-DockPanel-handle'].includes((<HTMLElement>evt.target).className)) {
+					for (const iframe of document.getElementsByTagName('iframe')) {
+						iframe.style.pointerEvents = 'none';
+					}
+				}
+			},
+			true
+		);
+		window.addEventListener(
+			'mouseup',
+			(evt) => {
+				for (const iframe of document.getElementsByTagName('iframe')) {
+					iframe.style.pointerEvents = 'auto';
+				}
+			},
+			true
+		);
 		// create the output view
 		const AutoplotDisplayView = class extends OutputView {
 			public model!: AutoplotDisplayModel;
+			private currentIframe: HTMLIFrameElement | undefined;
 
 			public render() {
 				super.render();
 
 				const uuid = <string>this.model.get('uuid');
+				// we have no control over when the iframe (dtale) will be created, so that's why we need to observe
+				// all the mutations contantly.
+				const observer = new MutationObserver((mutationList, observer) => {
+					const iframe = this._outputView.node.getElementsByTagName('iframe')[0];
+					if (iframe && iframe != this.currentIframe) {
+						this.currentIframe = iframe;
+						window.addEventListener(
+							'message',
+							(event) => {
+								if (event.source == iframe.contentWindow) {
+									// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+									this.model.set('data_id', event.data.data_id);
+									this.model.save_changes();
+								}
+							},
+							false
+						);
+					}
+				});
+				observer.observe(this._outputView.node, { childList: true, subtree: true });
 				if (uuid) {
 					widgetManager.addWidget(uuid, this._outputView);
 				}
