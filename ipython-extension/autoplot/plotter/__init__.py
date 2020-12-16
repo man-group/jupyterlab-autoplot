@@ -439,6 +439,8 @@ class Plotter(object):
             mpld3.plugins.connect(fig, InteractiveLegend(lines, labels))
             mpld3.plugins.connect(fig, TimeSeriesTooltip(lines))
 
+            assert x_min is not None
+            assert x_max is not None
             total_range = (x_max - x_min).total_seconds()
             button_labels = gen_range_selector_labels(total_range, min_step, True)
             margin_right = len(save_buttons) * 50
