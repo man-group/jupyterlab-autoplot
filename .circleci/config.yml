@@ -78,7 +78,7 @@ jobs:
           command: |
             virtualenv ci
             . ci/bin/activate
-            pip install ipython ipywidgets numpy pandas matplotlib mpld3
+            cd ipython-extension && pip install .
             pip install black==19.3b0 mypy pytest mock
       # save dependency cache
       - save_cache:
