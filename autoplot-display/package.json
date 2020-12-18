@@ -1,5 +1,5 @@
 {
-	"name": "autoplot-display",
+	"name": "@man/jupyterlab-autoplot-display",
 	"version": "0.1.0",
 	"description": "The JupyterLab component for the Autoplot JupyterLab extension.",
 	"license": "BSD-3-Clause",
