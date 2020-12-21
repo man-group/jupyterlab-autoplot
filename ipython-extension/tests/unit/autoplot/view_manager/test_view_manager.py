@@ -1,6 +1,7 @@
 from typing import Dict, Union
 
 import pandas as pd
+import pytest
 from ipywidgets import Output
 
 from autoplot.view_manager import ViewManager, View
@@ -241,3 +242,21 @@ def test_set_plot_width():
     assert manager._changed
     assert a.plot_width == 3
     assert b.plot_width is None
+
+
+def test_invalid_view_name():
+    shell = MockIPythonShell({})
+    a = TestView()
+    b = TestView()
+    manager = ViewManager(AutoplotDisplay(), shell, {"a": a, "b": b}, "a")
+
+    with pytest.raises(ValueError):
+        manager.active = "c"
+
+
+def test_invalid_view_name_constructor():
+    shell = MockIPythonShell({})
+    a = TestView()
+    b = TestView()
+    with pytest.raises(ValueError):
+        ViewManager(AutoplotDisplay(), shell, {"a": a, "b": b}, "c")

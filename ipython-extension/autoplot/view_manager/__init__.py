@@ -1,13 +1,16 @@
-"""Module containing the `CellEventHandler` class.
+"""Module containing the `View` and `ViewManager` classes.
 
 Classes
 -------
-CellEventHandler
-    Class defining handlers for IPython events
+View
+    Abstract class that must be implemented by any view that's going to be registered in the ViewManager
+ViewManager
+    Class that control multiple views and get them displayed
 """
 import abc
 from typing import Dict, Set, Union, List
 
+import IPython
 import pandas as pd
 from autoplot.extensions.toast import Toast, ToastType
 
@@ -18,12 +21,35 @@ from autoplot.extensions.autoplot_display import AutoplotDisplay
 class View(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def update_variables(self, pandas_vars: Dict[str, Union[pd.Series, pd.DataFrame]]) -> None:
-        """Update pandas variables"""
+        """After each cell execution this function is executed. At this moment the view has the chance to calculate
+        any differences between the old state and the current state after the cell execution
+
+        Parameters
+        ----------
+
+        pandas_vars: Dict[str, Union[pd.Series, pd.DataFrame]]
+            a dictionary where the keys are variable names that are available in the kernel namespace and the
+            value is the actual value of those variables. The view manager filters the variables so only pandas
+            dataframes and series are received.
+        """
         raise NotImplementedError
 
     @abc.abstractmethod
     def draw(self, force: bool, output: AutoplotDisplay) -> None:
-        """Draw the view"""
+        """After computing update_variables this method may be called. It will usually check the diffs created by
+        update_variables to decide what it needs to draw and whether or not a redraw is necessary. Drawing is
+        implemented using IPython.display
+
+        Parameters
+        ----------
+
+        force: bool
+            when True, draw should always redraw the view. Otherwise, the decision is up to the view
+        output: AutoplotDisplay
+            it's expected that IPython.display is going to be used inside a context created by running
+            with output:
+               ...
+        """
         raise NotImplementedError
 
     def ignore_variable(self, toast: Toast, var_name: str) -> None:
@@ -72,9 +98,24 @@ class ViewManager:
     Keeps track of pandas dataframes and series. It takes a dictionary of listeners that will be notified of all
     events. The tracker will always run post cell execution and it will call the draw method of the active view.
     However, events will be passed along to both active and inactive views.
+
+    Parameters
+    ----------
+
+    output: AutoplotDisplay
+        IPython output object that will be used to show the view
+    shell: IPython.InteractiveShell
+        the ipython shell. This will be used to inspect the variables defined in the namespace
+    views: Dict[str, View]
+        all the view implementations available. The active attribute must always be set to match one of the views in
+        this directory
+    active: str
+        currently active view. It must be one  of the keys in the views dictionary
     """
 
-    def __init__(self, output: AutoplotDisplay, shell, views: Dict[str, View], active: str):
+    def __init__(self, output: AutoplotDisplay, shell: IPython.InteractiveShell, views: Dict[str, View], active: str):
+        if active not in views:
+            raise ValueError(f"view {active} not part of the list of views")
         self._active = active
         self._changed = True  # controls whether the active view has changed
 
@@ -91,6 +132,8 @@ class ViewManager:
 
     @active.setter
     def active(self, active):
+        if active not in self._views:
+            raise ValueError(f"view {active} not part of the list of views")
         self._changed = self._active != active
         self._active = active
 

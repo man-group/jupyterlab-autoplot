@@ -23,6 +23,14 @@ class VarData(NamedTuple):
 
 
 class DTaler(View):
+    """
+    Implements the dtale backend for this project. This class will call
+    dtale.show for each new dataframe, given dtale's implementation that means
+    we will have a single dtale server per kernel. This class uses the data_id
+    field in AutoplotDisplay, which is populated from the frontend. That tells
+    it which table is being shown to the user.
+    """
+
     def __init__(self):
         # This is the current state of the variables we track. The tracked dict are the active variables, ignored and
         # forced_shown are variables the user wants to either ignore or stop ignoring
@@ -47,11 +55,6 @@ class DTaler(View):
         self._first_show = True
 
     def update_variables(self, pandas_vars: Dict[str, Union[pd.Series, pd.DataFrame]]) -> None:
-        """
-        :param pandas_vars: pandas variables that were defined inside a cell.
-
-        This function will prepare the internal state of this instance for the subsequent call to draw.
-        """
         # These variables are populated with the difference between the current state and the new variables
         self._updated = []
         self._new = []
@@ -101,11 +104,6 @@ class DTaler(View):
             self._update_tracked_var(name, var)
 
     def draw(self, force: bool, output: AutoplotDisplay) -> None:
-        """
-        Draw the dtale dataframe to output assuming that update_variables was called prior to this.
-        :param force: if true, a redraw will be forced, regardless if there were any changes
-        :param output:  the output area where the dtale object will be displayed
-        """
         refresh = False
         current = dtale.get_instance(output.data_id)
         if current is None:
