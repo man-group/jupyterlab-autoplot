@@ -2,9 +2,11 @@ from typing import Any, Dict
 
 import pytest
 
-from autoplot.cell_events import CellEventHandler
+from autoplot.plotter import PlotterModel
+from autoplot.extensions.autoplot_display import AutoplotDisplay
 from autoplot.extensions.toast import Toast
-from autoplot.magic import AutoplotMagic
+from autoplot.view_manager import ViewManager
+from autoplot import _make_magic
 from tests.unit.autoplot.mocks import COL, COL_ALT, DF, MockIPythonShell, MockPlotter, MockSuccessfulExecution, VAR
 
 
@@ -12,7 +14,7 @@ from tests.unit.autoplot.mocks import COL, COL_ALT, DF, MockIPythonShell, MockPl
 def autoplot_magic(mock_toast):
     """Return an `AutoplotMagic` instance initialised with the given namespace."""
 
-    def with_params(user_ns: Dict[str, Any] = None, toast: Toast = None) -> AutoplotMagic:
+    def with_params(user_ns: Dict[str, Any] = None, toast: Toast = None):
         if user_ns is None:
             user_ns = {}
 
@@ -21,10 +23,10 @@ def autoplot_magic(mock_toast):
 
         shell = MockIPythonShell(user_ns)
         plotter = MockPlotter(toast)
-        handler = CellEventHandler(shell, plotter)
-        magic = AutoplotMagic(shell, plotter, handler, toast)
-
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler = PlotterModel(plotter)
+        view_manager = ViewManager(AutoplotDisplay(), shell, {"graph": handler}, "graph")
+        magic = _make_magic(shell, toast, view_manager)
+        view_manager.redraw()
 
         return magic
 

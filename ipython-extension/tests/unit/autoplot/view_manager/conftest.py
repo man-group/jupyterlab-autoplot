@@ -3,8 +3,10 @@ from typing import Any, Dict, Optional, Set, Tuple
 import pandas as pd
 import pytest
 
-from autoplot.cell_events import CellEventHandler
+from autoplot.plotter import PlotterModel
+from autoplot.extensions.autoplot_display import AutoplotDisplay
 from autoplot.extensions.toast import Toast
+from autoplot.view_manager import ViewManager
 from tests.unit.autoplot.mocks import COL, MockIPythonShell, MockPlotter, MockSuccessfulExecution
 
 LENGTH = 10
@@ -51,11 +53,11 @@ def str_dataframe(str_series) -> pd.DataFrame:
 
 @pytest.fixture()
 def initialised_mocks(mock_toast):
-    """Return a new, initialised mock `Shell`, `Plotter` and `CellEventHandler`."""
+    """Return a new, initialised mock `Shell`, `Plotter` and `PlotterModel`."""
 
     def with_params(
         user_ns: Dict[str, Any], reserved: Optional[Set[str]] = None, toast: Toast = None
-    ) -> Tuple[MockIPythonShell, MockPlotter, CellEventHandler]:
+    ) -> Tuple[MockIPythonShell, MockPlotter, PlotterModel]:
         if toast is None:
             toast = mock_toast
 
@@ -64,14 +66,14 @@ def initialised_mocks(mock_toast):
         plotter = MockPlotter(toast)
 
         # initialise cell event handler instance
-        handler = CellEventHandler(shell, plotter)
+        handler = PlotterModel(plotter)
 
+        view_manager = ViewManager(AutoplotDisplay(), shell, {"graph": handler}, "graph")
         # optionally add reserved names
         if reserved is not None:
-            handler._reserved = reserved
+            view_manager._reserved = reserved
 
-        # run handler once
-        handler.post_run_cell(MockSuccessfulExecution())
+        view_manager.redraw()
 
         return shell, plotter, handler
 

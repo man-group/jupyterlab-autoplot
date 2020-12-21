@@ -20,20 +20,15 @@ def test_deleted_series_restores_correctly(initialised_mocks, num_series, num_se
     shell, plotter, handler = initialised_mocks({VAR: initial})
     colour = plotter[VAR].get_line().get_color()
 
-    # remove the variable and rerun
-    shell.user_ns.pop(VAR)
-    handler.post_run_cell(MockSuccessfulExecution())
+    handler.update_variables({})
 
     with pytest.raises(KeyError):
         _ = handler[VAR]  # test correctly removed
 
-    # add new series with same name and run
-    shell.user_ns[VAR] = final
-
     with mock.patch.object(
         plotter, "update_trace_series", wraps=plotter.update_trace_series
     ) as mock_update_trace_series:
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler.update_variables({VAR: final})
 
     # test expected method calls occurred
     mock_update_trace_series.assert_called_once()
@@ -55,19 +50,15 @@ def test_deleted_dataframe_restores_correctly(initialised_mocks, num_dataframe, 
     colour = plotter[DF_COL].get_line().get_color()
 
     # remove the variable and rerun
-    shell.user_ns.pop(DF)
-    handler.post_run_cell(MockSuccessfulExecution())
+    handler.update_variables({})
 
     with pytest.raises(KeyError):
         _ = handler[DF]  # test correctly removed
 
-    # add new series with same name and run
-    shell.user_ns[DF] = final
-
     with mock.patch.object(
         plotter, "update_trace_series", wraps=plotter.update_trace_series
     ) as mock_update_trace_series:
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler.update_variables({DF: final})
 
     # test expected method calls occurred
     mock_update_trace_series.assert_called_once()
@@ -90,7 +81,7 @@ def test_deleted_column_restores_correctly(initialised_mocks, num_dataframe, num
 
     # remove the variable and rerun
     df.drop(columns=[COL], inplace=True)
-    handler.post_run_cell(MockSuccessfulExecution())
+    handler.update_variables({DF: df})
 
     with pytest.raises(KeyError):
         _ = handler[DF_COL]  # test correctly removed
@@ -101,7 +92,7 @@ def test_deleted_column_restores_correctly(initialised_mocks, num_dataframe, num
     with mock.patch.object(
         plotter, "update_trace_series", wraps=plotter.update_trace_series
     ) as mock_update_trace_series:
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler.update_variables({DF: df})
 
     # test expected method calls occurred
     mock_update_trace_series.assert_called_once()

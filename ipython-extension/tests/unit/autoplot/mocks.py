@@ -35,7 +35,7 @@ class MockPlotter(Plotter):
     """Class to mock the `Plotter` class. Overwrites the `plot()` method."""
 
     def __init__(self, mock_toast):
-        super().__init__(None, mock_toast)  # noqa
+        super().__init__(mock_toast)  # noqa
 
-    def plot(self):
+    def plot(self, force, output):
         self._changed = False

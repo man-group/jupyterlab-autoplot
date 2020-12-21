@@ -15,7 +15,7 @@ def test_set_valid_height(height, autoplot_magic):
     magic.autoplot(f"--height {height}")
 
     # test height set to given value
-    assert magic.plotter._height == pytest.approx(float(height))
+    assert magic.view_manager.active_view._plotter._height == pytest.approx(float(height))
 
 
 @pytest.mark.parametrize("width", [FigSize.MIN_WIDTH.value, 6.7, 8, "9", "10.1", 44 / 7, FigSize.MAX_WIDTH.value])
@@ -24,7 +24,7 @@ def test_set_valid_width(width, autoplot_magic):
     magic.autoplot(f"--width {width}")
 
     # test width set to given value
-    assert magic.plotter._width == pytest.approx(float(width))
+    assert magic.view_manager.active_view._plotter._width == pytest.approx(float(width))
 
 
 @pytest.mark.parametrize(
@@ -45,7 +45,7 @@ def test_set_height_out_of_range(mock_toast, height, autoplot_magic):
 
     # test height set to nearest boundary
     expected = FigSize.MIN_HEIGHT.value if height <= FigSize.MIN_HEIGHT.value else FigSize.MAX_HEIGHT.value
-    assert magic.plotter._height == pytest.approx(expected)
+    assert magic.view_manager.active_view._plotter._height == pytest.approx(expected)
 
     # test that a warning was shown
     toast.show.assert_called_once()
@@ -69,7 +69,7 @@ def test_set_width_out_of_range(mock_toast, width, autoplot_magic):
 
     # test width set to nearest boundary
     expected = FigSize.MIN_WIDTH.value if width <= FigSize.MIN_WIDTH.value else FigSize.MAX_WIDTH.value
-    assert magic.plotter._width == pytest.approx(expected)
+    assert magic.view_manager.active_view._plotter._width == pytest.approx(expected)
 
     # test that a warning was shown
     toast.show.assert_called_once()

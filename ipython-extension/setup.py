@@ -1,4 +1,4 @@
-import setuptools
+from setuptools import setup, find_packages
 
 
 def get_long_description():
@@ -7,8 +7,8 @@ def get_long_description():
     return desc
 
 
-setuptools.setup(
-    name="autoplot",
+setup(
+    name="jupyterlab-autoplot",
     version="0.1.0",
     author="Man Alpha Technology",
     author_email="ManAlphaTech@man.com",
@@ -17,9 +17,9 @@ setuptools.setup(
     long_description=get_long_description(),
     url="https://github.com/man-group/jupyterlab-autoplot",
     keywords=["jupyter", "jupyterlab", "matplotlib", "mpld3", "time series"],
-    packages=setuptools.find_packages(include=["autoplot", "autoplot.*"], exclude=["tests", "tests.*"]),
+    packages=find_packages(include=["autoplot", "autoplot.*"], exclude=["tests", "tests.*"]),
     include_package_data=True,
-    install_requires=["ipython", "numpy", "pandas", "matplotlib", "mpld3", "setuptools"],
+    install_requires=["ipywidgets", "ipython", "numpy", "pandas", "matplotlib", "mpld3", "dtale"],
     tests_require=["pytest", "pytest-cov", "mock"],
     classifiers=[
         "Programming Language :: Python :: 3",

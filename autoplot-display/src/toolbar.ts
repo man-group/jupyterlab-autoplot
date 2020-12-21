@@ -8,7 +8,9 @@ import { IDisposable } from '@phosphor/disposable';
  * Content of the new cell that will be added to the top of the notebook.
  */
 const CELL_TEXT = `# This will load the JupyterLab Autoplot extension. Run '%autoplot?' for more information.
-%reload_ext autoplot`;
+%reload_ext autoplot
+# change graph to dtale below if you want a dtale table
+%autoplot -v graph`;
 
 /**
  * Class defining the 'Add autoplot' button on the notebook toolbar.

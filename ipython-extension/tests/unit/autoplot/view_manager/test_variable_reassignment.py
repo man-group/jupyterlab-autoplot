@@ -8,6 +8,7 @@ indexed, real valued series is changed to a non-plottable variable (e.g. a strin
 
 import mock
 import pytest
+from ipywidgets import Output
 
 from tests.unit.autoplot.mocks import COL, DF, DF_COL, MockSuccessfulExecution, VAR
 
@@ -24,7 +25,8 @@ def test_plottable_series_to_plottable_series(initialised_mocks, num_series, num
     with mock.patch.object(
         plotter, "update_trace_series", wraps=plotter.update_trace_series
     ) as mock_update_trace_series:
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler.update_variables({VAR: final})
+        handler.draw(False, Output())
 
     # test expected method calls occurred
     mock_update_trace_series.assert_called_once()
@@ -49,7 +51,8 @@ def test_plottable_series_to_non_plottable(final, initialised_mocks, num_series,
     with mock.patch.object(
         plotter, "update_trace_series", wraps=plotter.update_trace_series
     ) as mock_update_trace_series:
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler.update_variables({VAR: final})
+        handler.draw(False, Output())
 
     # test expected method calls occurred
     mock_update_trace_series.assert_not_called()
@@ -72,7 +75,8 @@ def test_non_plottable_to_plottable_series(initial, initialised_mocks, num_serie
     shell.user_ns = {VAR: final}
 
     with mock.patch.object(plotter, "add_trace", wraps=plotter.add_trace) as mock_add_trace:
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler.update_variables({VAR: final})
+        handler.draw(False, Output())
 
     # test expected method calls occurred
     mock_add_trace.assert_called_once()
@@ -96,7 +100,8 @@ def test_plottable_column_to_plottable_column(initialised_mocks, num_dataframe, 
     with mock.patch.object(
         plotter, "update_trace_series", wraps=plotter.update_trace_series
     ) as mock_update_trace_series:
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler.update_variables({DF: final})
+        handler.draw(False, Output())
 
     # test expected method calls occurred
     mock_update_trace_series.assert_called_once()
@@ -121,7 +126,8 @@ def test_plottable_column_to_non_plottable_column(initialised_mocks, num_datafra
     with mock.patch.object(
         plotter, "update_trace_series", wraps=plotter.update_trace_series
     ) as mock_update_trace_series:
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler.update_variables({DF: final})
+        handler.draw(False, Output())
 
     # test expected method calls occurred
     mock_update_trace_series.assert_not_called()
@@ -146,7 +152,8 @@ def test_non_plottable_column_to_plottable_column(initialised_mocks, num_datafra
     shell.user_ns = {DF: final}
 
     with mock.patch.object(plotter, "add_trace", wraps=plotter.add_trace) as mock_add_trace:
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler.update_variables({DF: final})
+        handler.draw(False, Output())
 
     # test expected method calls occurred
     mock_add_trace.assert_called_once()
@@ -169,7 +176,8 @@ def test_plottable_series_to_plottable_df(initialised_mocks, num_series, num_dat
     shell.user_ns = {DF: final}
 
     with mock.patch.object(plotter, "add_trace", wraps=plotter.add_trace) as mock_add_trace:
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler.update_variables({DF: final})
+        handler.draw(False, Output())
 
     # test expected method calls occurred
     mock_add_trace.assert_called_once()
@@ -193,7 +201,8 @@ def test_plottable_series_to_non_plottable_df(initialised_mocks, num_series, str
     shell.user_ns = {DF: final}
 
     with mock.patch.object(plotter, "add_trace", wraps=plotter.add_trace) as mock_add_trace:
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler.update_variables({DF: final})
+        handler.draw(False, Output())
 
     # test expected method calls occurred
     mock_add_trace.assert_not_called()
@@ -218,7 +227,8 @@ def test_plottable_df_to_plottable_series(initialised_mocks, num_dataframe, num_
     shell.user_ns = {DF: final}
 
     with mock.patch.object(plotter, "add_trace", wraps=plotter.add_trace) as mock_add_trace:
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler.update_variables({DF: final})
+        handler.draw(False, Output())
 
     # test expected method calls occurred
     mock_add_trace.assert_called_once()
@@ -249,7 +259,8 @@ def test_plottable_df_to_non_plottable(final, initialised_mocks, num_dataframe, 
     with mock.patch.object(
         plotter, "update_trace_series", wraps=plotter.update_trace_series
     ) as mock_update_trace_series:
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler.update_variables({DF: final})
+        handler.draw(False, Output())
 
     # test expected method calls occurred
     mock_update_trace_series.assert_not_called()
@@ -275,7 +286,8 @@ def test_non_plottable_to_plottable_df(initial, initialised_mocks, num_dataframe
     shell.user_ns = {DF: final}
 
     with mock.patch.object(plotter, "add_trace", wraps=plotter.add_trace) as mock_add_trace:
-        handler.post_run_cell(MockSuccessfulExecution())
+        handler.update_variables({DF: final})
+        handler.draw(False, Output())
 
     # test expected method calls occurred
     mock_add_trace.assert_called_once()
