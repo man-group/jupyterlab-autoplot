@@ -64,6 +64,8 @@ jobs:
 
   test-and-build-ipython-5x:
     executor: python/default
+    docker:
+      - image: circleci/python:3.6.4
     steps:
       # checkout code
       - checkout
