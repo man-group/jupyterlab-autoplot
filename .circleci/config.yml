@@ -62,6 +62,48 @@ jobs:
           paths:
             - js
 
+  test-and-build-ipython-5x:
+    executor: python/default
+    steps:
+      # checkout code
+      - checkout
+      - *attach_workspace
+      # load dependency cache
+      - restore_cache:
+          name: Restore pip cache
+          key: requirements-5x-{{ .Branch }}
+      # create environment and install dependencies
+      - run:
+          name: Create and activate virtualenv
+          command: |
+            virtualenv ci-5x
+            . ci-5x/bin/activate
+            pip install ipython==5.2.2
+            cd ipython-extension && pip install .
+            pip install black==19.3b0 mypy pytest mock
+            python -c 'import IPython; print(IPython.__version__)'
+            [ "$(python -c 'import IPython; print(IPython.__version__)')" == "5.2.2" ]
+      # save dependency cache
+      - save_cache:
+          name: Save pip cache
+          key: requirements-5x-{{ .Branch }}-{{ epoch }}
+          paths:
+            - ./ci-5x
+      # restore bundles from workspace
+      - run:
+          name: Info
+          command: |
+            cd ipython-extension/autoplot/plugins
+            mkdir bundles
+            cp -r /tmp/workspace/js/* bundles
+      # run unit tests
+      - run:
+          name: Run pytest
+          command: |
+            . ci-5x/bin/activate
+            mkdir test-results-5x
+            pytest ipython-extension --junitxml=/tmp/pytest-results-5x/junit.xml
+
   test-and-build-ipython-ext:
     executor: python/default
     steps:
@@ -104,7 +146,7 @@ jobs:
           command: |
             cd ipython-extension/autoplot/plugins
             mkdir bundles
-            mv /tmp/workspace/js/* bundles
+            cp -r /tmp/workspace/js/* bundles
       # run unit tests
       - run:
           name: Run pytest
@@ -173,6 +215,9 @@ workflows:
     jobs:
       - test-and-build-mpld3-plugins
       - test-and-build-ipython-ext:
+          requires:
+            - test-and-build-mpld3-plugins
+      - test-and-build-ipython-5x:
           requires:
             - test-and-build-mpld3-plugins
       - test-and-build-lab-ext
