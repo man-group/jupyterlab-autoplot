@@ -37,8 +37,13 @@ def load_ipython_extension(shell):
     dtaler = DTaler()
     view_manager = ViewManager(AutoplotDisplay(), shell, {"graph": plotter_model, "dtale": dtaler}, "graph")
 
-    def _autoplot_post_run_cell(result: ExecutionResult):
-        if result.success:
+    def _autoplot_post_run_cell(*args):
+        if args:
+            success = args[0].success
+        else:
+            # IPython 5.x didn't use to pass the result as a parameter of post_run_cell
+            success = IPython.get_ipython().last_execution_succeeded
+        if success:
             view_manager.redraw()
 
     # Unregister previous events registered with this class (eg.: when the plugin reloads)
