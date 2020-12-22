@@ -73,7 +73,7 @@ jobs:
       # load dependency cache
       - restore_cache:
           name: Restore pip cache
-          key: requirements-5x-{{ .Branch }}
+          key: requirements-5x-{{ .Branch }}-{{ epoch }}
       # create environment and install dependencies
       - run:
           name: Create and activate virtualenv
