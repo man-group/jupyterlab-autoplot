@@ -78,6 +78,7 @@ jobs:
       - run:
           name: Create and activate virtualenv
           command: |
+            set -e
             virtualenv ci-5x
             . ci-5x/bin/activate
             pip install ipython==5.2.2
@@ -161,15 +162,24 @@ jobs:
           path: /tmp/pytest-results
       # build egg on master
       - run:
-          name: Build eggs
+          name: Build package
+          command: |
+            set -e
+            . ci/bin/activate
+            cd ipython-extension
+            python setup.py bdist_wheel --universal
+            python setup.py sdist
+            cp -r ./dist /tmp/dist
+      - run:
+          name: Upload package to PyPI
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               set -e
               . ci/bin/activate
-              cd ipython-extension
-              python setup.py bdist_egg
-              python setup.py sdist
-              cp -r ./dist /tmp/dist
+              pip install twine
+              export TWINE_USERNAME='__token__'
+              export TWINE_PASSWORD=$PYPI_TOKEN
+              twine upload --skip-existing /tmp/dist/*
             fi
       # store artifacts
       - store_artifacts:
@@ -211,7 +221,16 @@ jobs:
           command: |
             cd autoplot-display
             npm run build
-
+      - run:
+          name: Publish package
+          command: |
+            set -e
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              cd autoplot-display
+              echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+              # ignore error uploading a version that already exists
+              npm publish || grep -q E403 $HOME/.npm/_logs/*
+            fi
 workflows:
   main:
     jobs:
