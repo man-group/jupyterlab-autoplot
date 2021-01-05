@@ -7,7 +7,7 @@ import { OutputView } from '@jupyter-widgets/jupyterlab-manager/lib/output';
 import { embedImage } from './handlers/embedImage';
 import { toastHandler } from './handlers/toasts';
 import { AutoplotDisplayModel } from './model';
-import { AutoplotButton } from './toolbar';
+import {AutoplotButton, DtaleButton} from './toolbar';
 import { WidgetsByNotebook, WidgetManager } from './utils/WidgetManager';
 import { VERSION } from './version';
 
@@ -101,6 +101,8 @@ const extension: JupyterFrontEndPlugin<void> = {
 		// register the toolbar button to attach it to notebooks
 		const autoplotButton = new AutoplotButton();
 		app.docRegistry.addWidgetExtension('Notebook', autoplotButton);
+		const dtaleButton = new DtaleButton();
+		app.docRegistry.addWidgetExtension('Notebook', dtaleButton);
 	},
 };
 

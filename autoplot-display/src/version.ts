@@ -5,7 +5,7 @@
  */
 export namespace VERSION {
 	export const title = 'Autoplot Display';
-	export const version = '0.1.0';
+	export const version = '0.1.1';
 	export const module = '@jupyter-widgets/autoplot-display';
 
 	export const modelName = 'AutoplotDisplayModel';
