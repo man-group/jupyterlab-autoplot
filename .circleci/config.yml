@@ -142,7 +142,7 @@ jobs:
           name: Run mypy
           command: |
             . ci/bin/activate
-            mypy --ignore-missing-imports ipython-extension
+            mypy --ignore-missing-imports ipython-extension/autoplot
       # restore bundles from workspace
       - run:
           name: Info
