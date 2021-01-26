@@ -229,7 +229,7 @@ jobs:
               cd autoplot-display
               echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
               # ignore error uploading a version that already exists
-              npm publish || grep -q E403 $HOME/.npm/_logs/*
+              npm publish --access public || grep -q E403 $HOME/.npm/_logs/*
             fi
 workflows:
   main:
