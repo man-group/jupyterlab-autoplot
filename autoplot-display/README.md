@@ -39,9 +39,13 @@ You will also need to install the IPython extension, as described [here](../ipyt
 
 As described [here](../ipython-extension#autoplotdisplay), this class is linked to the IPython `AutoplotDisplay` class to control where the plot is displayed. This becomes the model for `AutoplotDisplayView`, which is rendered to display the plot tab.
 
+Dtale is implemented using an iframe and, in order to communicate with the page that includes it, it sends messages to the parent's window. `AutoplotDisplayModel` matches the message source with the dtale iframe it is managing and updates its `data_id` property. That is propagated down to the model via jupyterlab's/backbonejs' back to the python backend. Since we cannot control when the underlying IPython `display` will be called. This class also needs to define a MutationObserver to find out the iframe when it is created.
+
 #### `JupyterFrontEndPlugin`
 
 An instance of this class is defined and exported from `index.ts` to register the extension. The `activate` property defines the function to run when JupyterLab is loaded, thus it contains commands to initialise the widget 'dictionaries', add event listeners and register the widgets. It also adds the `AutoplotButton` to the notebook toolbar.
+
+The dtale iframe will capture mouse events, so a few events are registered by this plugin to try to prevent this from happening when panels are being resized.
 
 #### `WidgetManager`
 
