@@ -23,7 +23,7 @@ Both the IPython extension and the Jupyterlab extension need to be installed:
 ```sh
 pip install jupyterlab-autoplot
 jupyter labextension install @jupyter-widgets/jupyterlab-manager
-jupyter labextension install @jupyter-widgets/autoplot-display
+jupyter labextension install @mangroup/jupyterlab-autoplot-display
 ```
 
 ## Usage
