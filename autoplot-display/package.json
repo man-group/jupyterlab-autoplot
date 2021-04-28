@@ -1,6 +1,6 @@
 {
 	"name": "@mangroup/jupyterlab-autoplot-display",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"description": "The JupyterLab component for the Autoplot JupyterLab extension.",
 	"license": "BSD-3-Clause",
 	"keywords": [
@@ -24,11 +24,11 @@
 		"watch": "tsc -w"
 	},
 	"dependencies": {
-		"@jupyter-widgets/jupyterlab-manager": "^1.1.0",
-		"@jupyterlab/application": "^1.0.0",
-		"@jupyterlab/mainmenu": "^1.2.8",
-		"@jupyterlab/notebook": "^1.2.9",
-		"jupyterlab_toastify": "^4.0.0"
+		"@jupyter-widgets/jupyterlab-manager": "^2.0.0",
+		"@jupyterlab/application": "^2.2.6",
+		"@jupyterlab/mainmenu": "^2.0.0",
+		"@jupyterlab/notebook": "^2.0.0",
+		"jupyterlab_toastify": "^4.1.2"
 	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "3.4.0",

@@ -103,7 +103,7 @@ class Trace(object):
         # flag that stores whether the user has been warned that this series is too
         # long to be displayed in full
         self._been_warned = False
-        self._max_length = np.inf if max_length == 0 else max_length
+        self._max_length = np.iinfo(np.int64).max if max_length == 0 else max_length
 
         # the approximate index step size, in seconds
         self._step_size = 1
@@ -194,7 +194,7 @@ class Trace(object):
             otherwise False.
         """
         if max_length == 0:
-            max_length = np.inf
+            max_length = np.iinfo(np.int64).max
 
         # don't replot if max length unchanged
         if self._max_length == max_length:

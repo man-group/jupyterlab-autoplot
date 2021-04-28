@@ -1,3 +1,8 @@
+0.2.0
+=====
+
+- Compatibility changes for JupyterLab 2
+
 0.1.1
 =====
 

@@ -6,6 +6,14 @@
 	background-image: var(--jp-icon-autoplot);
 }
 
+.autoplotButton .jp-Icon {
+    color: var(--jp-layout-color4);
+}
+
+.dtaleButton .jp-Icon {
+    color: var(--jp-layout-color4);
+}
+
 /* shrink the whitespace to the right of the plot */
 .autoplot-panel .jp-OutputArea-prompt {
 	width: 3px;

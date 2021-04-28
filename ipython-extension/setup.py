@@ -9,7 +9,7 @@ def get_long_description():
 
 setup(
     name="jupyterlab-autoplot",
-    version="0.1.1",
+    version="0.2.0",
     author="Man Alpha Technology",
     author_email="ManAlphaTech@man.com",
     license="BSD 3-Clause",
@@ -19,7 +19,7 @@ setup(
     keywords=["jupyter", "jupyterlab", "matplotlib", "mpld3", "time series"],
     packages=find_packages(include=["autoplot", "autoplot.*"], exclude=["tests", "tests.*"]),
     include_package_data=True,
-    install_requires=["ipywidgets", "ipython", "numpy", "pandas", "matplotlib", "mpld3", "dtale"],
+    install_requires=["ipywidgets", "ipython", "numpy", "pandas", "matplotlib", "mpld3", "dtale<=1.8.8"],
     tests_require=["pytest", "pytest-cov", "mock"],
     classifiers=[
         "Programming Language :: Python :: 3",

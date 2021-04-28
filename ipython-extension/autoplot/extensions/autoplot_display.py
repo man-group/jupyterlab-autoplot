@@ -13,7 +13,7 @@ from traitlets import Unicode
 
 # these values must mach those in autoplot-display/version.ts
 EXTENSION_TITLE = "Autoplot Display"
-EXTENSION_VERSION = "0.1.1"
+EXTENSION_VERSION = "0.2.0"
 MODULE_NAME = "@jupyter-widgets/autoplot-display"
 
 MODEL_NAME = "AutoplotDisplayModel"

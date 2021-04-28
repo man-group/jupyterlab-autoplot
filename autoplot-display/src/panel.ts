@@ -1,9 +1,9 @@
 import { NotebookPanel } from '@jupyterlab/notebook';
 import { OutputArea } from '@jupyterlab/outputarea';
 
-import { UUID } from '@phosphor/coreutils';
-import { Signal } from '@phosphor/signaling';
-import { Panel } from '@phosphor/widgets';
+import { UUID } from '@lumino/coreutils';
+import { Signal } from '@lumino/signaling';
+import { Panel } from '@lumino/widgets';
 
 /**
  * The namespace for the `AutoplotPanel` class statics.

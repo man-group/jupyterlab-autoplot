@@ -234,7 +234,7 @@ A diagram showing roughly how the different components interact is shown below. 
 
 JupyterLab Component:
 
-- [JupyterLab](https://jupyter.org/) (v1.0.0 or compatible) - *BSD 3-Clause*
+- [JupyterLab](https://jupyter.org/) (v2.0.0 or compatible) - *BSD 3-Clause*
 - [jupyterlab_toastify](https://www.npmjs.com/package/jupyterlab_toastify) - *BSD 3-Clause*
 
 IPython Component:

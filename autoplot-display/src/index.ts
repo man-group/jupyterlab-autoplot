@@ -7,7 +7,7 @@ import { OutputView } from '@jupyter-widgets/jupyterlab-manager/lib/output';
 import { embedImage } from './handlers/embedImage';
 import { toastHandler } from './handlers/toasts';
 import { AutoplotDisplayModel } from './model';
-import {AutoplotButton, DtaleButton} from './toolbar';
+import { AutoplotButton, DtaleButton } from './toolbar';
 import { WidgetsByNotebook, WidgetManager } from './utils/WidgetManager';
 import { VERSION } from './version';
 

@@ -35,7 +35,7 @@ export function embedImage(tracker: INotebookTracker, event: CustomEventInit<{ s
 	NotebookActions.changeCellType(notebook, 'markdown');
 
 	const cell = tracker.activeCell;
-	cell.model.value.text = `![${imageAlt}](${dataUrl})`;
+	cell!.model.value.text = `![${imageAlt}](${dataUrl})`;
 
 	// run the cell to render it
 	void NotebookActions.run(notebook);
