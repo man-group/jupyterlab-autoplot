@@ -2,7 +2,7 @@ import { ToolbarButton } from '@jupyterlab/apputils';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 import { NotebookPanel, NotebookActions, INotebookModel } from '@jupyterlab/notebook';
 
-import { IDisposable } from '@phosphor/disposable';
+import { IDisposable } from '@lumino/disposable';
 
 /**
  * Content of the new cell that will be added to the top of the notebook.
@@ -42,7 +42,7 @@ export class AutoplotButton implements DocumentRegistry.IWidgetExtension<Noteboo
 
 		const button = new ToolbarButton({
 			className,
-			iconClassName: 'fa fa-line-chart',
+			iconClass: 'fa fa-line-chart',
 			onClick,
 			tooltip: 'Add an autoplot display panel to this notebook',
 		});
@@ -81,7 +81,7 @@ export class DtaleButton implements DocumentRegistry.IWidgetExtension<NotebookPa
 
 		const button = new ToolbarButton({
 			className,
-			iconClassName: 'fa fa-table',
+			iconClass: 'fa fa-table',
 			onClick,
 			tooltip: 'Add a dtale display panel to this notebook',
 		});

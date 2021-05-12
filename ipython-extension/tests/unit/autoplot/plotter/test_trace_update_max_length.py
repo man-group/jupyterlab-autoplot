@@ -8,7 +8,9 @@ import numpy as np
 import pytest
 
 
-@pytest.mark.parametrize("series_length,max_length", [(10, 10), (10, 1000), (10, 10000), (10, np.inf), (10, 0)])
+@pytest.mark.parametrize(
+    "series_length,max_length", [(10, 10), (10, 1000), (10, 10000), (10, np.iinfo(np.int64).max), (10, 0)]
+)
 def test_update_trace_length_no_downsample(mock_toast, series_length, max_length, datetime_series, trace_from_series):
     # initialise trace
     series = datetime_series(series_length)

@@ -193,7 +193,8 @@ export class WidgetManager {
 					this.buildWidget(outputArea, notebook, modelId, path);
 				} else {
 					// notebook is running but not open -> define callback
-					notebook.activated.connect(() => this.buildWidget(outputArea, notebook, modelId, path));
+					// @ts-ignore
+					notebook.activated.connect(() => this.buildWidget(outputArea, notebook, modelId, path)); // eslint-disable-line
 				}
 			} else {
 				// no notebook with matching path open -> dispose widget and delete record
