@@ -19,7 +19,7 @@ setup(
     keywords=["jupyter", "jupyterlab", "matplotlib", "mpld3", "time series"],
     packages=find_packages(include=["autoplot", "autoplot.*"], exclude=["tests", "tests.*"]),
     include_package_data=True,
-    install_requires=["ipywidgets", "ipython", "numpy", "pandas", "matplotlib", "mpld3", "dtale>=1.16.0,<1.36,>=2.15.2"],
+    install_requires=["ipywidgets", "ipython", "numpy", "pandas", "matplotlib", "mpld3", "dtale>=2.15.2"],
     tests_require=["pytest", "pytest-cov", "mock"],
     classifiers=[
         "Programming Language :: Python :: 3",
