@@ -190,7 +190,7 @@ class DTaler(View):
 def _removed_in_dtale(tracked: Iterable) -> Set[str]:
     removed: Set[str] = set()
     for name, vardata in tracked:
-        if dtale.global_state.find_data_id(vardata.dd._data_id) is None:
+        if dtale.global_state.get_instance(vardata.dd._data_id) is None:
             removed.add(name)
     return removed
 
@@ -207,7 +207,7 @@ def _filter_updated(pandas_vars: Iterable, tracked: Dict[str, VarData]) -> Dict[
 
 
 def _next_dtale_data():
-    data_id = next(iter(dtale.global_state.get_data().keys()), None)
+    data_id = next(iter(dtale.global_state.keys()), None)
     if data_id is not None:
         return dtale.get_instance(data_id)
     else:

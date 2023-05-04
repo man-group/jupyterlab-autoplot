@@ -1,3 +1,8 @@
+0.3.0
+=====
+
+- Compatibility changes for D-Tale 2.15.2
+
 0.2.0
 =====
 

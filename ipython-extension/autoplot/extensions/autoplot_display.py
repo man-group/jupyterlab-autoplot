@@ -13,7 +13,7 @@ from traitlets import Unicode
 
 # these values must mach those in autoplot-display/version.ts
 EXTENSION_TITLE = "Autoplot Display"
-EXTENSION_VERSION = "0.2.0"
+EXTENSION_VERSION = "0.3.0"
 MODULE_NAME = "@jupyter-widgets/autoplot-display"
 
 MODEL_NAME = "AutoplotDisplayModel"
@@ -39,4 +39,4 @@ class AutoplotDisplay(Output):
     # custom attributes
     title = Unicode(EXTENSION_TITLE).tag(sync=True)
     uuid = Unicode(uuid.uuid4().hex).tag(sync=True)
-    data_id = Unicode("").tag(sync=True)
+    data_id = Unicode("1").tag(sync=True)
