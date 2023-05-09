@@ -57,7 +57,7 @@ def test_draw_new_dataframe(display_mock, dtaler):
 
     vars["df2"] = df2
     dtaler.update_variables(vars)
-    output.data_id = dtaler._tracked["df1"].dd._data_id
+    output.data_id = str(dtaler._tracked["df1"].dd._data_id)
     dtaler.draw(False, output)
 
     assert all(_get_parameter(display_mock).data == df2)
@@ -76,7 +76,7 @@ def test_draw_reassigned_dataframe(display_mock, dtaler):
     new_df1 = pd.DataFrame({"a": [7, 8, 9]})
     vars["df1"] = new_df1
     dtaler.update_variables(vars)
-    output.data_id = dtaler._tracked["df1"].dd._data_id
+    output.data_id = str(dtaler._tracked["df1"].dd._data_id)
     dtaler.draw(False, output)
 
     assert all(_get_parameter(display_mock).data == df1)
@@ -95,7 +95,7 @@ def test_draw_does_not_reload_hidden_df(display_mock, dtaler):
 
     vars["df1"] = pd.DataFrame({"a": [1, 2, 3]})
     dtaler.update_variables(vars)
-    output.data_id = dtaler._tracked["df2"].dd._data_id
+    output.data_id = str(dtaler._tracked["df2"].dd._data_id)
     dtaler.draw(False, output)
 
     assert not display_mock.called
@@ -113,7 +113,7 @@ def test_draw_external_data_id_does_not_reload(display_mock, dtaler):
     dtaler.update_variables(vars)
 
     vars["df1"] = pd.DataFrame({"a": [1, 2, 3]})
-    output.data_id = dtale.show(df3, ignore_duplicate=True)._data_id
+    output.data_id = str(dtale.show(df3, ignore_duplicate=True)._data_id)
     dtaler.update_variables(vars)
     dtaler.draw(False, output)
 
@@ -163,7 +163,7 @@ def test_draw_doesnt_reload_hidden_dfs(display_mock, dtaler):
     vars = {"df1": df1, "df2": df2}
     dtaler.update_variables(vars)
 
-    output.data_id = dtaler._tracked["df1"].dd._data_id
+    output.data_id = str(dtaler._tracked["df1"].dd._data_id)
     vars.pop("df2")
     dtaler.update_variables(vars)
     dtaler.draw(False, output)
@@ -181,7 +181,7 @@ def test_draw_reloads_when_visible_df_deleted(display_mock, dtaler):
     vars = {"df1": df1, "df2": df2}
     dtaler.update_variables(vars)
 
-    output.data_id = dtaler._tracked["df2"].dd._data_id
+    output.data_id = str(dtaler._tracked["df2"].dd._data_id)
     vars.pop("df2")
     dtaler.update_variables(vars)
     dtaler.draw(False, output)
@@ -292,7 +292,7 @@ def test_ignore_current_variable_no_fallback(display_mock, dtaler):
 
     dtaler.update_variables({"df1": df1})
 
-    output.data_id = dtaler._tracked["df1"].dd._data_id
+    output.data_id = str(dtaler._tracked["df1"].dd._data_id)
     dtaler.ignore_variable(Toast(Output()), "df1")
     dtaler.update_variables({"df1": df1})
     dtaler.draw(False, output)
@@ -310,7 +310,7 @@ def test_ignore_current_variable_with_fallback(display_mock, dtaler):
 
     dtaler.update_variables({"df1": df1, "df2": df2})
 
-    output.data_id = dtaler._tracked["df1"].dd._data_id
+    output.data_id = str(dtaler._tracked["df1"].dd._data_id)
     dtaler.ignore_variable(Toast(Output()), "df1")
     dtaler.update_variables({"df1": df1, "df2": df2})
     dtaler.draw(False, output)
@@ -328,7 +328,7 @@ def test_ignore_other_variable_with_fallback(display_mock, dtaler):
 
     dtaler.update_variables({"df1": df1, "df2": df2})
 
-    output.data_id = dtaler._tracked["df1"].dd._data_id
+    output.data_id = str(dtaler._tracked["df1"].dd._data_id)
     dtaler.ignore_variable(Toast(Output()), "df2")
     dtaler.update_variables({"df1": df1, "df2": df2})
     dtaler.draw(False, output)
@@ -346,7 +346,7 @@ def test_show_ignored_variable(display_mock, dtaler):
 
     dtaler.update_variables({"df1": df1, "df2": df2})
 
-    output.data_id = dtaler._tracked["df1"].dd._data_id
+    output.data_id = str(dtaler._tracked["df1"].dd._data_id)
     dtaler.ignore_variable(Toast(Output()), "df2")
     dtaler.update_variables({"df1": df1, "df2": df2})
 
@@ -367,7 +367,7 @@ def test_show_variable(display_mock, dtaler):
 
     dtaler.update_variables({"df1": df1, "df2": df2})
 
-    output.data_id = dtaler._tracked["df2"].dd._data_id
+    output.data_id = str(dtaler._tracked["df2"].dd._data_id)
     dtaler.show_variable(Toast(Output()), "df1")
     dtaler.update_variables({"df1": df1, "df2": df2})
     dtaler.draw(False, output)
@@ -385,7 +385,7 @@ def test_show_frozen_variable(display_mock, dtaler):
 
     dtaler.update_variables({"df1": df1})
 
-    output.data_id = dtaler._tracked["df1"].dd._data_id
+    output.data_id = str(dtaler._tracked["df1"].dd._data_id)
     dtaler.freeze(Toast(Output()))
 
     dtaler.update_variables({"df1": df1, "df2": df2})
@@ -409,7 +409,7 @@ def test_delete_from_dtale_and_namespace(display_mock, dtaler):
     output = AutoplotDisplay()
 
     dtaler.update_variables({"df1": df1, "df2": df2})
-    output.data_id = dtaler._tracked["df1"].dd._data_id
+    output.data_id = str(dtaler._tracked["df1"].dd._data_id)
 
     dtale.global_state.cleanup(dtaler._tracked["df1"].dd._data_id)
     dtaler.update_variables({"df2": df2})
