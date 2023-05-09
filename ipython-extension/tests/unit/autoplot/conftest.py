@@ -51,20 +51,17 @@ def ip(session_ip):
 
 
 def _start_ipython():
-    """Start a global IPython shell, which we need for IPython-specific syntax.
-    """
+    """Start a global IPython shell, which we need for IPython-specific syntax."""
 
     def xsys(self, cmd):
-        """Replace the default system call with a capturing one for doctest.
-        """
+        """Replace the default system call with a capturing one for doctest."""
         # We use getoutput, but we need to strip it because pexpect captures
         # the trailing newline differently from commands.getoutput
         print(self.getoutput(cmd, split=False, depth=1).rstrip(), end="", file=sys.stdout)
         sys.stdout.flush()
 
     def _showtraceback(self, etype, evalue, stb):
-        """Print the traceback purely on stdout for doctest to capture it.
-        """
+        """Print the traceback purely on stdout for doctest to capture it."""
         print(self.InteractiveTB.stb2text(stb), file=sys.stdout)
 
     global get_ipython

@@ -83,7 +83,7 @@ jobs:
             . ci-5x/bin/activate
             pip install ipython==5.2.2
             cd ipython-extension && pip install .
-            pip install black==19.3b0 mypy pytest mock
+            pip install black==23.3.0 mypy pytest mock
             python -c 'import IPython; print(IPython.__version__)'
             [ "$(python -c 'import IPython; print(IPython.__version__)')" == "5.2.2" ]
       # save dependency cache
@@ -124,7 +124,7 @@ jobs:
             virtualenv ci
             . ci/bin/activate
             cd ipython-extension && pip install .
-            pip install black==19.3b0 mypy pytest mock
+            pip install black==23.3.0 mypy pytest mock
       # save dependency cache
       - save_cache:
           name: Save pip cache

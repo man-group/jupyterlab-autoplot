@@ -275,16 +275,16 @@ class ViewManager:
     def set_ylabel(self, toast: Toast, ylabel: str) -> None:
         """Set the y axis label.
 
-         If the new label is different, set `self._changed` to True.
+        If the new label is different, set `self._changed` to True.
 
-         Parameters
-         ----------
-         toast: Toast
-             The `Toast` class instance.
+        Parameters
+        ----------
+        toast: Toast
+            The `Toast` class instance.
 
-         ylabel: str
-             New label for the y axis. If it is an empty string, no label will be used.
-         """
+        ylabel: str
+            New label for the y axis. If it is an empty string, no label will be used.
+        """
         try:
             return self.active_view.set_ylabel(toast, ylabel)
         except NotImplementedError:

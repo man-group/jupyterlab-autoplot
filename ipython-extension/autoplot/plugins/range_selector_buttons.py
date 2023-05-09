@@ -23,38 +23,38 @@ with open(_js_file_path, "r") as f:
 class RangeSelectorButtons(mpld3.plugins.PluginBase):
     """Class defining an mpld3 plugin to create range selector buttons.
 
-    It extends `mpld3.plugins.PluginBase`, and can be connected to an mpld3 figure
-    using `mpld3.plugins.connect(fig, <instance>)`.
+        It extends `mpld3.plugins.PluginBase`, and can be connected to an mpld3 figure
+        using `mpld3.plugins.connect(fig, <instance>)`.
 
-    Properties
-    ----------
-    JAVASCRIPT: str
-        A string containing the necessary JavaScript code for the plugin.
+        Properties
+        ----------
+        JAVASCRIPT: str
+            A string containing the necessary JavaScript code for the plugin.
 
-    css_: str
-        A string containing the necessary style definitions for the plugin.
+        css_: str
+            A string containing the necessary style definitions for the plugin.
 
-    Examples
-    --------
-    >>> import matplotlib.pyplot as plt
-import mpld3
-import numpy as np
-import pandas as pd
-%matplotlib inline
-    >>> mpld3.enable_notebook()
-    >>> fig, ax = plt.subplots(figsize=(10, 4))
-    >>> x = pd.date_range("2020-01-01", "2021-06-01")
-    >>> y = np.random.randn(len(x))
-    >>> lines = [ax.plot(x, y)]
-    >>> button_labels = ["fit", "reset", "5d", "14d", "1m", "6m", "ytd", "1y"]
-    >>> ax.autoscale(enable=True, axis="x", tight=True)
-    >>> mpld3.plugins.connect(fig, RangeSelectorButtons(button_labels, lines))
-    >>> plt.show()
+        Examples
+        --------
+        >>> import matplotlib.pyplot as plt
+    import mpld3
+    import numpy as np
+    import pandas as pd
+    %matplotlib inline
+        >>> mpld3.enable_notebook()
+        >>> fig, ax = plt.subplots(figsize=(10, 4))
+        >>> x = pd.date_range("2020-01-01", "2021-06-01")
+        >>> y = np.random.randn(len(x))
+        >>> lines = [ax.plot(x, y)]
+        >>> button_labels = ["fit", "reset", "5d", "14d", "1m", "6m", "ytd", "1y"]
+        >>> ax.autoscale(enable=True, axis="x", tight=True)
+        >>> mpld3.plugins.connect(fig, RangeSelectorButtons(button_labels, lines))
+        >>> plt.show()
 
-    Notes
-    -----
-    This plugin communicates with the `InteractiveLegend` plugin via the mpld3 Line
-    property `.isHidden`.
+        Notes
+        -----
+        This plugin communicates with the `InteractiveLegend` plugin via the mpld3 Line
+        property `.isHidden`.
     """
 
     JAVASCRIPT = _js
