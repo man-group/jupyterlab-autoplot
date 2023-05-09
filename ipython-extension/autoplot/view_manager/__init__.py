@@ -145,7 +145,7 @@ class ViewManager:
     def view_names(self) -> List[str]:
         return list(self._views.keys())
 
-    def redraw(self):
+    def redraw(self) -> None:
         pandas_vars: Dict[str, Union[pd.Series, pd.DataFrame]] = {}
         for name, var in self._shell.user_ns.items():
             if not name.startswith("_") and name not in self._reserved and self._is_pandas(var):

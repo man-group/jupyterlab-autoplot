@@ -124,7 +124,7 @@ jobs:
             virtualenv ci
             . ci/bin/activate
             cd ipython-extension && pip install .
-            pip install black==23.3.0 mypy pytest mock
+            pip install black==23.3.0 mypy pytest mock types-setuptools
       # save dependency cache
       - save_cache:
           name: Save pip cache

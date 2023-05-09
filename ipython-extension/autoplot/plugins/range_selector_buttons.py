@@ -6,7 +6,7 @@ RangeSelectorButtons
     Class defining an mpld3 plugin to create range selector buttons.
 """
 
-from typing import List
+from typing import List, Optional
 
 import matplotlib.lines as mpl_lines
 import mpld3
@@ -62,7 +62,11 @@ class RangeSelectorButtons(mpld3.plugins.PluginBase):
               .mpld3-range-selector-button-text { cursor: pointer; }"""
 
     def __init__(
-        self, button_labels: List[str], lines: List[mpl_lines.Line2D] = None, margin_right: int = 0, fontsize: int = 13
+        self,
+        button_labels: List[str],
+        lines: Optional[List[mpl_lines.Line2D]] = None,
+        margin_right: int = 0,
+        fontsize: int = 13,
     ):
         """Initialise a `RangeSelectorButtons` instance.
 

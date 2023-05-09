@@ -31,7 +31,7 @@ class DTaler(View):
     it which table is being shown to the user.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         # This is the current state of the variables we track. The tracked dict are the active variables, ignored and
         # forced_shown are variables the user wants to either ignore or stop ignoring
         self._tracked: Dict[str, VarData] = {}

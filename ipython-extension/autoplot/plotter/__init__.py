@@ -513,7 +513,7 @@ class PlotterModel(View):
         """Return the dictionary of series names associated with each dataframe."""
         return self._plotted_dfs
 
-    def _update_trace_if_changed(self, name: str, series: pd.Series, df_name: str = None):
+    def _update_trace_if_changed(self, name: str, series: pd.Series, df_name: Optional[str] = None):
         """Update the named trace with the given series.
 
         This function does nothing if the variable is not new and the series has

@@ -8,7 +8,7 @@ Trace
 
 import copy
 import datetime
-from typing import Tuple
+from typing import Optional, Tuple
 
 import matplotlib.lines as mpl_lines
 import numpy as np
@@ -63,7 +63,7 @@ class Trace(object):
         max_length: int,
         *,
         visible: bool = True,
-        df_name: str = None,
+        df_name: Optional[str] = None,
     ):
         """Initialise a `Trace` instance.
 
