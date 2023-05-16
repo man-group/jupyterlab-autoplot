@@ -105,7 +105,7 @@ class DTaler(View):
 
     def draw(self, force: bool, output: AutoplotDisplay) -> None:
         refresh = False
-        current = dtale.get_instance(int(output.data_id))
+        current = dtale.get_instance(output.data_id)
         if current is None:
             current = Image(data=resource_filename(__name__, "assets/imgs/dtale.png"))
         # The conditionals below encode precedence. Whatever the user wants to show takes is the preferred value to
@@ -173,12 +173,7 @@ class DTaler(View):
         if vardata:
             data_id = vardata.dd._data_id
             dtale.global_state.cleanup(data_id)
-            try:
-                # this will be fixed in newer version of D-Tale
-                del dtale.global_state._default_store._data_names[var_name]
-            except KeyError:
-                pass
-            self._deleted.append(str(vardata.dd._data_id))
+            self._deleted.append(vardata.dd._data_id)
 
     def _add_tracked_var(self, name, var):
         dd = self._dtale_show(data=var, ignore_duplicate=True, reaper_on=False, name=name, hide_shutdown=True)
@@ -189,13 +184,13 @@ class DTaler(View):
         vardata = self._tracked[name]
         vardata.dd.data = var
         self._tracked[name] = VarData(pdf=var, dd=vardata.dd)
-        self._updated.append(str(vardata.dd._data_id))
+        self._updated.append(vardata.dd._data_id)
 
 
 def _removed_in_dtale(tracked: Iterable) -> Set[str]:
     removed: Set[str] = set()
     for name, vardata in tracked:
-        if dtale.get_instance(int(vardata.dd._data_id)) is None:
+        if dtale.get_instance(vardata.dd._data_id) is None:
             removed.add(name)
     return removed
 
