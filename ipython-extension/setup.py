@@ -9,7 +9,7 @@ def get_long_description():
 
 setup(
     name="jupyterlab-autoplot",
-    version="0.4.0",
+    version="0.5.0",
     author="Man Alpha Technology",
     author_email="ManAlphaTech@man.com",
     license="BSD 3-Clause",
