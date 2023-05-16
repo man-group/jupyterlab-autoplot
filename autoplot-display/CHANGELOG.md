@@ -1,7 +1,8 @@
-0.4.0
+0.5.0
 =====
 
-- Compatibility bugfixes for D-Tale 2.15.2
+- Bumped D-Tale dependency to 2.16.0
+
 
 0.3.0
 =====
